@@ -3,78 +3,50 @@ import java.util.Scanner;
 public class MusicPlaylist {
     static class Node {
         String title;
-        String artist;
         Node prev, next;
-        Node(String title, String artist) {
-            this.title = title;
-            this.artist = artist;
-        }
-        @Override
-        public String toString() {
-            return title + " - " + artist;
-        }
-    }
+        Node(String title) {this.title = title;}
+        public String toString() {return title;} }
 
     static class Playlist {
         Node head, tail;
         Node current;
         int size = 0;
-        void add(String title, String artist) {
+        void add(String title) {
             if (title == null || title.isEmpty()) {
-                throw new IllegalArgumentException("ชื่อเพลงว่างเปล่า");
-            }
-            Node n = new Node(title, artist);
-            if (head == null) {
-                head = tail = current = n;
-            } else {
+                throw new IllegalArgumentException("ชื่อเพลงว่างเปล่า");}
+            Node n = new Node(title);
+            if (head == null) {head = tail = current = n;} 
+            else {
                 tail.next = n;
                 n.prev = tail;
-                tail = n;
-            }
-            size++;
-        }
+                tail = n;}
+            size++;}
 
         Node search(String title) {
             if (title == null) return null;
             for (Node cur = head; cur != null; cur = cur.next) {
-                if (cur.title.equalsIgnoreCase(title)) return cur;
-            }
-            return null;
-        }
+                if (cur.title.equalsIgnoreCase(title)) return cur;}
+            return null;}
 
         int indexOf(Node target) {
             int i = 0;
             for (Node cur = head; cur != null; cur = cur.next, i++) {
-                if (cur == target) return i;
-            }
-            return -1;
-        }
+                if (cur == target) return i;}
+            return -1; }
 
         void delete(Node n) {
-            if (n == null) {
-                throw new IllegalArgumentException("ไม่พบเพลงที่ต้องการลบ");
-            }
-            if (current == n) {
-                current = (n.next != null) ? n.next : n.prev;
-            }
+            if (n == null) {throw new IllegalArgumentException("ไม่พบเพลงที่ต้องการลบ");}
+            if (current == n) {current = (n.next != null) ? n.next : n.prev;}
             if (n.prev != null) n.prev.next = n.next; else head = n.next;
             if (n.next != null) n.next.prev = n.prev; else tail = n.prev;
             n.prev = n.next = null;
-            size--;
-        }
+            size--;}
 
-        boolean isEmpty() {
-            return size == 0;
-        }
+        boolean isEmpty() {return size == 0;}
 
         void print() {
             int i = 1;
-            for (Node cur = head; cur != null; cur = cur.next) {
-                System.out.println(i++ + ". " + cur
-                        + (cur == current ? "  <--- กำลังเล่น" : ""));
-            }
-        }
-    }
+            for (Node cur = head; cur != null; cur = cur.next) { System.out.println(i++ + ". " + cur+ (cur == current ? "  <--- กำลังเล่น" : ""));}}}
 
     static class InputClosedException extends RuntimeException {
     }
@@ -117,15 +89,7 @@ public class MusicPlaylist {
             return;
         }
 
-        System.out.print("กรอกชื่อศิลปิน (เว้นว่างได้) : ");
-        String artist = readLine();
-        if (artist.length() > MAX_LENGTH) {
-            System.out.println("ผิดพลาด: ชื่อศิลปินยาวเกินไป (สูงสุด " + MAX_LENGTH + " ตัวอักษร)");
-            return;
-        }
-        if (artist.isEmpty()) artist = "ไม่ระบุศิลปิน";
-
-        playlist.add(title, artist);
+        playlist.add(title);
         System.out.println("เพิ่มเพลง \"" + title + "\" สำเร็จ");
     }
 
@@ -163,7 +127,6 @@ public class MusicPlaylist {
             if (found != null) {
                 System.out.println("พบเพลง!");
                 System.out.println("ชื่อเพลง : " + found.title);
-                System.out.println("ศิลปิน   : " + found.artist);
                 System.out.println("ลำดับที่  : " + (playlist.indexOf(found) + 1));
                 return;
             }
