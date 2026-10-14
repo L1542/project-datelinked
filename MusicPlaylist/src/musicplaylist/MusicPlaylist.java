@@ -5,6 +5,7 @@ public class MusicPlaylist {
             String title;
             Node prev, next;
             Node(String title) {this.title = title;}
+            
             public String toString() {return title;} }
 
         static class Playlist {
@@ -63,6 +64,7 @@ public class MusicPlaylist {
             System.out.println("2. Delete");
             System.out.println("3. Search");
             System.out.println("4. Next/Previous");
+            System.out.println("5. ShowPlaylist");
             System.out.println("0. ปิดโปรแกรม");
             System.out.println(LINE);}
 
@@ -134,6 +136,14 @@ public class MusicPlaylist {
                     return;} 
                 else {
                     System.out.println("ผิดพลาด: คำสั่งไม่ถูกต้อง ให้ใช้ N, P หรือ B");}}}
+        static void showSong() {
+                if (playlist.isEmpty()) {
+                        System.out.println("ผิดพลาด: เพลย์ลิสต์ว่างเปล่า");
+                        return;}
+                System.out.println("---- เพลย์ลิสต์ ----");
+                playlist.print();
+                System.out.println("--------------------");
+                System.out.println("จำนวนเพลงทั้งหมด : " + playlist.size + " เพลง");}
 
         public static void main(String[] args) {
             try {
@@ -155,12 +165,13 @@ public class MusicPlaylist {
                             case 1: addSong();      break;
                             case 2: deleteSong();   break;
                             case 3: searchSong();   break;
-                            case 4: nextPrevious(); break;
+                            case 4: nextPrevious(); break;        
+                            case 5: showSong(); break;
                             case 0:
                                 System.out.println("ลาก่อน!");
                                 return;
                             default:
-                                System.out.println("ผิดพลาด: เลขไม่ถูกต้อง เลือกได้ 0-4");}
+                                System.out.println("ผิดพลาด: เลขไม่ถูกต้อง เลือกได้ 0-5");}
                     } catch (InputClosedException e) {
                         throw e;
                     } catch (RuntimeException e) {
